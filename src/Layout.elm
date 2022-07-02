@@ -1,5 +1,5 @@
 module Layout exposing
-    ( none, el, column, row
+    ( centeredContainer, none, el, column, row
     , centered, alignBaseline, alignCenter, centerContent, noWrap
     , fill, fillPortion
     , spacing, spaceBetween
@@ -11,7 +11,7 @@ module Layout exposing
 
 # Html container
 
-@docs none, el, column, row
+@docs centeredContainer, none, el, column, row
 
 
 # Attributes
@@ -57,6 +57,34 @@ import Html.Attributes as Attr
 none : Html msg
 none =
     Html.text ""
+
+
+{-| Sets the content in the center of the screen.
+
+    centeredContainer : List (Attribute msg) -> Html msg -> Html msg
+    centeredContainer attrs content =
+        Html.div
+            ([ Attr.style "position" "fixed"
+             , Attr.style "top" "50%"
+             , Attr.style "left" "50%"
+             , Attr.style "transform" "translate(-50%, -50%)"
+             ]
+                ++ attrs
+            )
+            [ content ]
+
+-}
+centeredContainer : List (Attribute msg) -> Html msg -> Html msg
+centeredContainer attrs content =
+    Html.div
+        ([ Attr.style "position" "fixed"
+         , Attr.style "top" "50%"
+         , Attr.style "left" "50%"
+         , Attr.style "transform" "translate(-50%, -50%)"
+         ]
+            ++ attrs
+        )
+        [ content ]
 
 
 {-|
