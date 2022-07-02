@@ -97,7 +97,7 @@ If you don't want this behavior, you can just add `noWrap`:
 
     unwrappedRow : List (Attribute msg) -> List (Html msg) -> Html msg
     unwrappedRow attrs =
-        Layout.row ([ Layout.noWrap ] ++ attrs)
+        Layout.row (Layout.noWrap ++ attrs)
 
 -}
 row : List (Attribute msg) -> List (Html msg) -> Html msg
