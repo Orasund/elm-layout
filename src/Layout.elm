@@ -1,5 +1,5 @@
 module Layout exposing
-    ( centeredContainer, none, el, column, row
+    ( container, none, el, column, row
     , centered, alignBaseline, alignCenter, centerContent, noWrap
     , fill, fillPortion
     , spacing, spaceBetween
@@ -9,9 +9,9 @@ module Layout exposing
 {-| write HTML like elm-ui
 
 
-# Html container
+# Html elements
 
-@docs centeredContainer, none, el, column, row
+@docs container, none, el, column, row
 
 
 # Attributes
@@ -36,7 +36,7 @@ module Layout exposing
 -}
 
 import Html exposing (Attribute, Html)
-import Html.Attributes as Attr
+import Html.Attributes
 
 
 
@@ -59,32 +59,32 @@ none =
     Html.text ""
 
 
-{-| Sets the content in the center of the screen.
+{-| Fills the entire screen. Should be the outer most element.
 
-    centeredContainer : List (Attribute msg) -> Html msg -> Html msg
-    centeredContainer attrs content =
-        Html.div
-            ([ Attr.style "position" "fixed"
-             , Attr.style "top" "50%"
-             , Attr.style "left" "50%"
-             , Attr.style "transform" "translate(-50%, -50%)"
+    container : List (Attribute msg) -> Html msg -> Html msg
+    container attrs =
+        el
+            ([ Html.Attributes.style "width" "100%"
+             , Html.Attributes.style "height" "100%"
+             , Html.Attributes.style "position" "absolute"
+             , Html.Attributes.style "left" "0px"
+             , Html.Attributes.style "top" "0px"
              ]
                 ++ attrs
             )
-            [ content ]
 
 -}
-centeredContainer : List (Attribute msg) -> Html msg -> Html msg
-centeredContainer attrs content =
-    Html.div
-        ([ Attr.style "position" "fixed"
-         , Attr.style "top" "50%"
-         , Attr.style "left" "50%"
-         , Attr.style "transform" "translate(-50%, -50%)"
+container : List (Attribute msg) -> Html msg -> Html msg
+container attrs =
+    el
+        ([ Html.Attributes.style "width" "100%"
+         , Html.Attributes.style "height" "100%"
+         , Html.Attributes.style "position" "absolute"
+         , Html.Attributes.style "left" "0px"
+         , Html.Attributes.style "top" "0px"
          ]
             ++ attrs
         )
-        [ content ]
 
 
 {-|
@@ -92,7 +92,7 @@ centeredContainer attrs content =
     el : List (Attribute msg) -> Html msg -> Html msg
     el attrs content =
         Html.div
-            (Attr.style "display" "flex"
+            (Html.Attributes.style "display" "flex"
                 :: attrs
             )
             [ content ]
@@ -101,7 +101,7 @@ centeredContainer attrs content =
 el : List (Attribute msg) -> Html msg -> Html msg
 el attrs content =
     Html.div
-        (Attr.style "display" "flex"
+        (Html.Attributes.style "display" "flex"
             :: attrs
         )
         [ content ]
@@ -112,9 +112,9 @@ el attrs content =
     row : List (Attribute msg) -> List (Html msg) -> Html msg
     row attrs =
         Html.div
-            ([ Attr.style "display" "flex"
-             , Attr.style "flex-direction" "row"
-             , Attr.style "flex-wrap" "wrap"
+            ([ Html.Attributes.style "display" "flex"
+             , Html.Attributes.style "flex-direction" "row"
+             , Html.Attributes.style "flex-wrap" "wrap"
              ]
                 ++ attrs
             )
@@ -131,9 +131,9 @@ If you don't want this behavior, you can just add `noWrap`:
 row : List (Attribute msg) -> List (Html msg) -> Html msg
 row attrs =
     Html.div
-        ([ Attr.style "display" "flex"
-         , Attr.style "flex-direction" "row"
-         , Attr.style "flex-wrap" "wrap"
+        ([ Html.Attributes.style "display" "flex"
+         , Html.Attributes.style "flex-direction" "row"
+         , Html.Attributes.style "flex-wrap" "wrap"
          ]
             ++ attrs
         )
@@ -144,8 +144,8 @@ row attrs =
     column : List (Attribute msg) -> List (Html msg) -> Html msg
     column attrs =
         Html.div
-            ([ Attr.style "display" "flex"
-             , Attr.style "flex-direction" "column"
+            ([ Html.Attributes.style "display" "flex"
+             , Html.Attributes.style "flex-direction" "column"
              ]
                 ++ attrs
             )
@@ -154,8 +154,8 @@ row attrs =
 column : List (Attribute msg) -> List (Html msg) -> Html msg
 column attrs =
     Html.div
-        ([ Attr.style "display" "flex"
-         , Attr.style "flex-direction" "column"
+        ([ Html.Attributes.style "display" "flex"
+         , Html.Attributes.style "flex-direction" "column"
          ]
             ++ attrs
         )
@@ -185,99 +185,99 @@ fill =
 
     fillPortion : Int -> Attribute msg
     fillPortion n =
-        Attr.style "flex" (String.fromInt n)
+        Html.Attributes.style "flex" (String.fromInt n)
 
 -}
 fillPortion : Int -> Attribute msg
 fillPortion n =
-    Attr.style "flex" (String.fromInt n)
+    Html.Attributes.style "flex" (String.fromInt n)
 
 
 {-|
 
     spacing : Float -> Attribute msg
     spacing n =
-        Attr.style "gap" (String.fromFloat n ++ "px")
+        Html.Attributesstyle "gap" (String.fromFloat n ++ "px")
 
 -}
 spacing : Float -> Attribute msg
 spacing n =
-    Attr.style "gap" (String.fromFloat n ++ "px")
+    Html.Attributes.style "gap" (String.fromFloat n ++ "px")
 
 
 {-|
 
     noWrap : Attribute msg
     noWrap =
-        Attr.style "flex-wrap" "nowrap"
+        Html.Attributes.style "flex-wrap" "nowrap"
 
 -}
 noWrap : Attribute msg
 noWrap =
-    Attr.style "flex-wrap" "nowrap"
+    Html.Attributes.style "flex-wrap" "nowrap"
 
 
 {-|
 
     alignBaseline : Attribute msg
     alignBaseline =
-        Attr.style "align-items" "baseline"
+        Html.Attributes.style "align-items" "baseline"
 
 -}
 alignBaseline : Attribute msg
 alignBaseline =
-    Attr.style "align-items" "baseline"
+    Html.Attributes.style "align-items" "baseline"
 
 
 {-|
 
     centered : List (Attribute msg)
     centered =
-        [ alignBaseline, alignCenter ]
+        [ centerContent, alignCenter ]
 
 -}
 centered : List (Attribute msg)
 centered =
-    [ alignBaseline, alignCenter ]
+    [ centerContent, alignCenter ]
 
 
 {-|
 
     alignCenter : Attribute msg
     alignCenter =
-        Attr.style "align-items" "center"
+        Html.Attributes.style "align-items" "center"
 
 -}
 alignCenter : Attribute msg
 alignCenter =
-    Attr.style "align-items" "center"
+    Html.Attributes.style "align-items" "center"
 
 
 {-|
 
     spaceBetween : Attribute msg
     spaceBetween =
-        Attr.style "justify-content" "space-between"
+        Html.Attributes.style "justify-content" "space-between"
 
 -}
 spaceBetween : Attribute msg
 spaceBetween =
-    Attr.style "justify-content" "space-between"
+    Html.Attributes.style "justify-content" "space-between"
 
 
 {-|
 
     sticky : List (Attribute msg)
     sticky =
-        [ Attr.style "position" "sticky"
-        , Attr.style "z-index" "99999"
+        [ Html.Attributes.style "position" "sticky"
+        , Html.Attributes.style "z-index" "99999"
         ]
 
 -}
 sticky : List (Attribute msg)
 sticky =
-    [ Attr.style "position" "sticky"
-    , Attr.style "z-index" "99999"
+    [ Html.Attributes.style "position" "sticky"
+    , Html.Attributes.style "z-index" "99999"
     ]
 
 
@@ -285,39 +285,39 @@ sticky =
 
     stickyOnTop : List (Attribute msg)
     stickyOnTop =
-        [ Attr.style "position" "sticky"
-        , Attr.style "top" "0"
-        , Attr.style "z-index" "99999"
+        [ Html.Attributes.style "position" "sticky"
+        , Html.Attributes.style "top" "0"
+        , Html.Attributes.style "z-index" "99999"
         ]
 
 -}
 stickyOnTop : List (Attribute msg)
 stickyOnTop =
-    Attr.style "top" "0" :: sticky
+    Html.Attributes.style "top" "0" :: sticky
 
 
 {-|
 
     stickyOnBottom : List (Attribute msg)
     stickyOnBottom =
-        [ Attr.style "position" "sticky"
-        , Attr.style "bottom" "0"
-        , Attr.style "z-index" "99999"
+        [ Html.Attributes.style "position" "sticky"
+        , Html.Attributes.style "bottom" "0"
+        , Html.Attributes.style "z-index" "99999"
         ]
 
 -}
 stickyOnBottom : List (Attribute msg)
 stickyOnBottom =
-    Attr.style "bottom" "0" :: sticky
+    Html.Attributes.style "bottom" "0" :: sticky
 
 
 {-|
 
     centerContent : Attribute msg
     centerContent =
-        Attr.style "justify-content" "center"
+        Html.Attributes.style "justify-content" "center"
 
 -}
 centerContent : Attribute msg
 centerContent =
-    Attr.style "justify-content" "center"
+    Html.Attributes.style "justify-content" "center"
