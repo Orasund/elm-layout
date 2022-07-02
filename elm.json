@@ -1,6 +1,7 @@
 {
     "type": "package",
     "name": "Orasund/elm-layout",
+    "version": "1.0.0",
     "summary": "Layout HTML using flexbox",
     "license": "BSD-3-Clause",
     "exposed-modules": [
