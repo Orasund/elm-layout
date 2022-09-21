@@ -4,6 +4,7 @@ module Layout exposing
     , fill, fillPortion
     , spacing, spaceBetween
     , sticky, stickyOnBottom, stickyOnTop
+    , button
     )
 
 {-| write HTML like elm-ui
@@ -37,6 +38,7 @@ module Layout exposing
 
 import Html exposing (Attribute, Html)
 import Html.Attributes
+import Html.Events
 
 
 
@@ -159,6 +161,38 @@ column attrs =
          ]
             ++ attrs
         )
+
+
+{-|
+
+    button : { onClick : Maybe msg, label : String } -> List (Attribute msg) -> Html msg -> Html msg
+    button args attrs content =
+        Html.div
+            ([ Html.Attributes.type_ "button"
+             , Html.Attributes.attribute "cursor" "pointer"
+             ]
+                ++ (args.onClick
+                        |> Maybe.map (\msg -> [ Html.Events.onClick msg ])
+                        |> Maybe.withDefault []
+                   )
+                ++ attrs
+            )
+            [ content ]
+
+-}
+button : { onClick : Maybe msg, label : String } -> List (Attribute msg) -> Html msg -> Html msg
+button args attrs content =
+    Html.div
+        ([ Html.Attributes.type_ "button"
+         , Html.Attributes.attribute "cursor" "pointer"
+         ]
+            ++ (args.onClick
+                    |> Maybe.map (\msg -> [ Html.Events.onClick msg ])
+                    |> Maybe.withDefault []
+               )
+            ++ attrs
+        )
+        [ content ]
 
 
 
