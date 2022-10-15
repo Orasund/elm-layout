@@ -1,10 +1,11 @@
 module Layout exposing
     ( container, none, el, column, row
+    , button
     , centered, alignBaseline, alignCenter, centerContent, noWrap
     , fill, fillPortion
     , spacing, spaceBetween
     , sticky, stickyOnBottom, stickyOnTop
-    , button
+    , asButton
     )
 
 {-| write HTML like elm-ui
@@ -13,6 +14,8 @@ module Layout exposing
 # Html elements
 
 @docs container, none, el, column, row
+
+@docs button
 
 
 # Attributes
@@ -33,6 +36,11 @@ module Layout exposing
 ## Sticky
 
 @docs sticky, stickyOnBottom, stickyOnTop
+
+
+## Role
+
+@docs asButton
 
 -}
 
@@ -165,34 +173,34 @@ column attrs =
 
 {-|
 
-    button : { onClick : Maybe msg, label : String } -> List (Attribute msg) -> Html msg -> Html msg
-    button args attrs content =
-        Html.div
-            ([ Html.Attributes.type_ "button"
-             , Html.Attributes.attribute "cursor" "pointer"
-             ]
-                ++ (args.onClick
-                        |> Maybe.map (\msg -> [ Html.Events.onClick msg ])
-                        |> Maybe.withDefault []
-                   )
-                ++ attrs
-            )
-            [ content ]
+    button : { onPress : Maybe msg, label : String } -> List (Attribute msg) -> Html msg
+    button args attrs =
+        Html.div (asButton args ++ attrs)
+            [ Html.text args.label ]
 
 -}
-button : { onClick : Maybe msg, label : String } -> List (Attribute msg) -> Html msg -> Html msg
-button args attrs content =
-    Html.div
-        ([ Html.Attributes.type_ "button"
-         , Html.Attributes.attribute "cursor" "pointer"
+button : { onPress : Maybe msg, label : String } -> List (Attribute msg) -> Html msg
+button args attrs =
+    Html.div (asButton args ++ attrs)
+        [ Html.text args.label ]
+
+
+radio :
+    { onChange : Bool -> msg
+    , checked : Bool
+    , label : String
+    }
+    -> List (Attribute msg)
+    -> Html msg
+radio args attrs =
+    Html.input
+        ([ Html.Attributes.type_ "radio"
+         , Html.Attributes.checked args.checked
+         , Html.Attributes.attribute "aria-label" args.label
          ]
-            ++ (args.onClick
-                    |> Maybe.map (\msg -> [ Html.Events.onClick msg ])
-                    |> Maybe.withDefault []
-               )
             ++ attrs
         )
-        [ content ]
+        []
 
 
 
@@ -201,6 +209,32 @@ button args attrs content =
 --  Attributes
 --
 ----------------------------------------------------------------------------------------------------
+
+
+{-| Turns anything into a button
+
+    asButton : { onPress : Maybe msg, label : String } -> List (Attribute msg)
+    asButton args =
+        [ Html.Attributes.type_ "button"
+        , Html.Attributes.attribute "cursor" "pointer"
+        , Html.Attributes.attribute "aria-label" args.label
+        ]
+            ++ (args.onPress
+                    |> Maybe.map (\msg -> [ Html.Events.onClick msg ])
+                    |> Maybe.withDefault []
+               )
+
+-}
+asButton : { onPress : Maybe msg, label : String } -> List (Attribute msg)
+asButton args =
+    [ Html.Attributes.type_ "button"
+    , Html.Attributes.attribute "cursor" "pointer"
+    , Html.Attributes.attribute "aria-label" args.label
+    ]
+        ++ (args.onPress
+                |> Maybe.map (\msg -> [ Html.Events.onClick msg ])
+                |> Maybe.withDefault []
+           )
 
 
 {-|
