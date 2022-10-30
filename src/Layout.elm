@@ -1,11 +1,14 @@
 module Layout exposing
-    ( container, none, el, column, row
-    , button
+    ( none, container, el, column, row, orderedList, unorderedList, descriptionList, paragraph
+    , heading1, heading2, heading3, heading4, heading5, heading6
+    , image, linkTo, linkToNewTab, buttonEl, radio
+    , lineBreak, horizontalRuler
     , centered, alignBaseline, alignCenter, centerContent, noWrap
     , fill, fillPortion
     , spacing, spaceBetween
     , sticky, stickyOnBottom, stickyOnTop
-    , asButton
+    , asEl, asButton
+    , button
     )
 
 {-| write HTML like elm-ui
@@ -13,9 +16,13 @@ module Layout exposing
 
 # Html elements
 
-@docs container, none, el, column, row
+@docs none, container, el, column, row, orderedList, unorderedList, descriptionList, paragraph
 
-@docs button
+@docs heading1, heading2, heading3, heading4, heading5, heading6
+
+@docs image, linkTo, linkToNewTab, buttonEl, radio
+
+@docs lineBreak, horizontalRuler
 
 
 # Attributes
@@ -40,7 +47,12 @@ module Layout exposing
 
 ## Role
 
-@docs asButton
+@docs asEl, asButton
+
+
+## Deprecated
+
+@docs button
 
 -}
 
@@ -173,6 +185,276 @@ column attrs =
 
 {-|
 
+    orderedList : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
+    orderedList attrs content =
+        Html.ol
+            (Html.Attributes.style "display" "flex" :: attrs)
+            (content
+                |> List.map (\( a, h ) -> Html.li a [ h ])
+            )
+
+-}
+orderedList : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
+orderedList attrs content =
+    Html.ol
+        (Html.Attributes.style "display" "flex" :: attrs)
+        (content
+            |> List.map (\( a, h ) -> Html.li a [ h ])
+        )
+
+
+{-|
+
+    unorderedList : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
+    unorderedList attrs content =
+        Html.ul
+            (Html.Attributes.style "display" "flex" :: attrs)
+            (content
+                |> List.map (\( a, h ) -> Html.li a [ h ])
+            )
+
+-}
+unorderedList : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
+unorderedList attrs content =
+    Html.ul
+        (Html.Attributes.style "display" "flex" :: attrs)
+        (content
+            |> List.map (\( a, h ) -> Html.li a [ h ])
+        )
+
+
+{-|
+
+    descriptionList :
+        List (Attribute msg)
+        -> List { description : ( List (Attribute msg), Html msg ), item : ( List (Attribute msg), Html msg ) }
+        -> Html msg
+    descriptionList attrs content =
+        Html.dl
+            (Html.Attributes.style "display" "flex" :: attrs)
+            (content
+                |> List.concatMap
+                    (\{ description, item } ->
+                        [ description |> (\( a, h ) -> Html.dt a [ h ])
+                        , item |> (\( a, h ) -> Html.dd a [ h ])
+                        ]
+                    )
+            )
+
+-}
+descriptionList :
+    List (Attribute msg)
+    -> List { description : ( List (Attribute msg), Html msg ), item : ( List (Attribute msg), Html msg ) }
+    -> Html msg
+descriptionList attrs content =
+    Html.dl
+        (Html.Attributes.style "display" "flex" :: attrs)
+        (content
+            |> List.concatMap
+                (\{ description, item } ->
+                    [ description |> (\( a, h ) -> Html.dt a [ h ])
+                    , item |> (\( a, h ) -> Html.dd a [ h ])
+                    ]
+                )
+        )
+
+
+{-|
+
+    paragraph : List (Attribute msg) -> Html msg -> Html msg
+    paragraph attrs content =
+        Html.p
+            (Html.Attributes.style "display" "flex" :: attrs)
+            [ content ]
+
+-}
+paragraph : List (Attribute msg) -> Html msg -> Html msg
+paragraph attrs content =
+    Html.p
+        (Html.Attributes.style "display" "flex" :: attrs)
+        [ content ]
+
+
+{-|
+
+    heading1 : List (Attribute msg) -> Html msg -> Html msg
+    heading1 attrs content =
+        Html.h1
+            (Html.Attributes.style "display" "flex" :: attrs)
+            [ content ]
+
+-}
+heading1 : List (Attribute msg) -> Html msg -> Html msg
+heading1 attrs content =
+    Html.h1
+        (Html.Attributes.style "display" "flex" :: attrs)
+        [ content ]
+
+
+{-|
+
+    heading2 : List (Attribute msg) -> Html msg -> Html msg
+    heading2 attrs content =
+        Html.h2
+            (Html.Attributes.style "display" "flex" :: attrs)
+            [ content ]
+
+-}
+heading2 : List (Attribute msg) -> Html msg -> Html msg
+heading2 attrs content =
+    Html.h2
+        (Html.Attributes.style "display" "flex" :: attrs)
+        [ content ]
+
+
+{-|
+
+    heading3 : List (Attribute msg) -> Html msg -> Html msg
+    heading3 attrs content =
+        Html.h3
+            (Html.Attributes.style "display" "flex" :: attrs)
+            [ content ]
+
+-}
+heading3 : List (Attribute msg) -> Html msg -> Html msg
+heading3 attrs content =
+    Html.h3
+        (Html.Attributes.style "display" "flex" :: attrs)
+        [ content ]
+
+
+{-|
+
+    heading4 : List (Attribute msg) -> Html msg -> Html msg
+    heading4 attrs content =
+        Html.h4
+            (Html.Attributes.style "display" "flex" :: attrs)
+            [ content ]
+
+-}
+heading4 : List (Attribute msg) -> Html msg -> Html msg
+heading4 attrs content =
+    Html.h4
+        (Html.Attributes.style "display" "flex" :: attrs)
+        [ content ]
+
+
+{-|
+
+    heading5 : List (Attribute msg) -> Html msg -> Html msg
+    heading5 attrs content =
+        Html.h5
+            (Html.Attributes.style "display" "flex" :: attrs)
+            [ content ]
+
+-}
+heading5 : List (Attribute msg) -> Html msg -> Html msg
+heading5 attrs content =
+    Html.h5
+        (Html.Attributes.style "display" "flex" :: attrs)
+        [ content ]
+
+
+{-|
+
+    heading6 : List (Attribute msg) -> Html msg -> Html msg
+    heading6 attrs content =
+        Html.h6
+            (Html.Attributes.style "display" "flex" :: attrs)
+            [ content ]
+
+-}
+heading6 : List (Attribute msg) -> Html msg -> Html msg
+heading6 attrs content =
+    Html.h6
+        (Html.Attributes.style "display" "flex" :: attrs)
+        [ content ]
+
+
+{-|
+
+    image : List (Attribute msg) -> { src : String, description : String } -> Html msg
+    image attrs args =
+        Html.img
+            ([ Html.Attributes.src args.src
+             , Html.Attributes.alt args.description
+             ]
+                ++ attrs
+            )
+            []
+
+-}
+image : List (Attribute msg) -> { src : String, description : String } -> Html msg
+image attrs args =
+    Html.img
+        ([ Html.Attributes.src args.src
+         , Html.Attributes.alt args.description
+         ]
+            ++ attrs
+        )
+        []
+
+
+{-|
+
+    linkTo : String -> List (Attribute msg) -> Html msg -> Html msg
+    linkTo link attrs content =
+        Html.a
+            (Html.Attributes.href link
+                :: attrs
+            )
+            [ content ]
+
+-}
+linkTo : String -> List (Attribute msg) -> Html msg -> Html msg
+linkTo link attrs content =
+    Html.a
+        (Html.Attributes.href link
+            :: attrs
+        )
+        [ content ]
+
+
+{-|
+
+    linkToNewTab : String -> List (Attribute msg) -> Html msg -> Html msg
+    linkToNewTab link attrs content =
+        Html.a
+            ([ Html.Attributes.href link
+             , Html.Attributes.target "_blank"
+             ]
+                ++ attrs
+            )
+            [ content ]
+
+-}
+linkToNewTab : String -> List (Attribute msg) -> Html msg -> Html msg
+linkToNewTab link attrs content =
+    Html.a
+        ([ Html.Attributes.href link
+         , Html.Attributes.target "_blank"
+         ]
+            ++ attrs
+        )
+        [ content ]
+
+
+{-|
+
+    buttonEl : { onPress : Maybe msg, label : String } -> List (Attribute msg) -> Html msg -> Html msg
+    buttonEl args attrs content =
+        Html.button (asEl :: asButton args ++ attrs)
+            [ content ]
+
+-}
+buttonEl : { onPress : Maybe msg, label : String } -> List (Attribute msg) -> Html msg -> Html msg
+buttonEl args attrs content =
+    Html.button (asEl :: asButton args ++ attrs)
+        [ content ]
+
+
+{-| @deprecated type signature will change in next major update. Until then, use `buttonEl`.
+
     button : { onPress : Maybe msg, label : String } -> List (Attribute msg) -> Html msg
     button args attrs =
         Html.div (asButton args ++ attrs)
@@ -185,6 +467,26 @@ button args attrs =
         [ Html.text args.label ]
 
 
+{-|
+
+    radio :
+        { onChange : Bool -> msg
+        , checked : Bool
+        , label : String
+        }
+        -> List (Attribute msg)
+        -> Html msg
+    radio args attrs =
+        Html.input
+            ([ Html.Attributes.type_ "radio"
+             , Html.Attributes.checked args.checked
+             , Html.Attributes.attribute "aria-label" args.label
+             ]
+                ++ attrs
+            )
+            []
+
+-}
 radio :
     { onChange : Bool -> msg
     , checked : Bool
@@ -203,6 +505,30 @@ radio args attrs =
         []
 
 
+{-|
+
+    lineBreak : Html msg
+    lineBreak =
+        Html.br [] []
+
+-}
+lineBreak : Html msg
+lineBreak =
+    Html.br [] []
+
+
+{-|
+
+    horizontalRuler : List (Attribute msg) -> Html msg
+    horizontalRuler attrs =
+        Html.hr attrs []
+
+-}
+horizontalRuler : List (Attribute msg) -> Html msg
+horizontalRuler attrs =
+    Html.hr attrs []
+
+
 
 ----------------------------------------------------------------------------------------------------
 --
@@ -215,9 +541,9 @@ radio args attrs =
 
     asButton : { onPress : Maybe msg, label : String } -> List (Attribute msg)
     asButton args =
-        [ Html.Attributes.type_ "button"
-        , Html.Attributes.attribute "cursor" "pointer"
+        [ Html.Attributes.attribute "cursor" "pointer"
         , Html.Attributes.attribute "aria-label" args.label
+        , Html.Attributes.attribute "role" "button"
         ]
             ++ (args.onPress
                     |> Maybe.map (\msg -> [ Html.Events.onClick msg ])
@@ -227,14 +553,26 @@ radio args attrs =
 -}
 asButton : { onPress : Maybe msg, label : String } -> List (Attribute msg)
 asButton args =
-    [ Html.Attributes.type_ "button"
-    , Html.Attributes.attribute "cursor" "pointer"
+    [ Html.Attributes.attribute "cursor" "pointer"
     , Html.Attributes.attribute "aria-label" args.label
+    , Html.Attributes.attribute "role" "button"
     ]
         ++ (args.onPress
                 |> Maybe.map (\msg -> [ Html.Events.onClick msg ])
                 |> Maybe.withDefault []
            )
+
+
+{-|
+
+    asEl : Attribute msg
+    asEl =
+        Html.Attributes.style "display" "flex"
+
+-}
+asEl : Attribute msg
+asEl =
+    Html.Attributes.style "display" "flex"
 
 
 {-|
