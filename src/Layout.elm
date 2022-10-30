@@ -3,12 +3,14 @@ module Layout exposing
     , heading1, heading2, heading3, heading4, heading5, heading6
     , image, linkTo, linkToNewTab, buttonEl, radio
     , lineBreak, horizontalRuler
-    , centered, alignBaseline, alignCenter, centerContent, noWrap
+    , centered, noWrap, wrap
+    , contentAtStart, contentAtEnd, contentCentered, contentWithSpaceBetween
+    , alignAtStart, alignAtEnd, alignAtBaseline, alignAtCenter, alignStretched
+    , gap
     , fill, fillPortion
-    , spacing, spaceBetween
     , sticky, stickyOnBottom, stickyOnTop
     , asEl, asButton
-    , button
+    , button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter
     )
 
 {-| write HTML like elm-ui
@@ -27,17 +29,18 @@ module Layout exposing
 
 # Attributes
 
-@docs centered, alignBaseline, alignCenter, centerContent, noWrap
+@docs centered, noWrap, wrap
+
+@docs contentAtStart, contentAtEnd, contentCentered, contentWithSpaceBetween
+
+@docs alignAtStart, alignAtEnd, alignAtBaseline, alignAtCenter, alignStretched
+
+@docs gap
 
 
-# Size
+## Size
 
 @docs fill, fillPortion
-
-
-# Spacing
-
-@docs spacing, spaceBetween
 
 
 ## Sticky
@@ -50,9 +53,9 @@ module Layout exposing
 @docs asEl, asButton
 
 
-## Deprecated
+# Deprecated
 
-@docs button
+@docs button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter
 
 -}
 
@@ -562,14 +565,21 @@ fillPortion n =
     Html.Attributes.style "flex" (String.fromInt n)
 
 
-{-|
-
-    spacing n =
-        Html.Attributesstyle "gap" (String.fromFloat n ++ "px")
-
+{-| @deprecated use `gap` instead.
 -}
 spacing : Float -> Attribute msg
 spacing n =
+    Html.Attributes.style "gap" (String.fromFloat n ++ "px")
+
+
+{-|
+
+    gap n =
+        Html.Attributes.style "gap" (String.fromFloat n ++ "px")
+
+-}
+gap : Float -> Attribute msg
+gap n =
     Html.Attributes.style "gap" (String.fromFloat n ++ "px")
 
 
@@ -586,46 +596,24 @@ noWrap =
 
 {-|
 
-    alignBaseline =
-        Html.Attributes.style "align-items" "baseline"
+    wrap =
+        Html.Attributes.style "flex-wrap" "wrap"
 
 -}
-alignBaseline : Attribute msg
-alignBaseline =
-    Html.Attributes.style "align-items" "baseline"
+wrap : Attribute msg
+wrap =
+    Html.Attributes.style "flex-wrap" "wrap"
 
 
 {-|
 
     centered =
-        [ centerContent, alignCenter ]
+        [ contentCentered, alignAtCenter ]
 
 -}
 centered : List (Attribute msg)
 centered =
-    [ centerContent, alignCenter ]
-
-
-{-|
-
-    alignCenter =
-        Html.Attributes.style "align-items" "center"
-
--}
-alignCenter : Attribute msg
-alignCenter =
-    Html.Attributes.style "align-items" "center"
-
-
-{-|
-
-    spaceBetween =
-        Html.Attributes.style "justify-content" "space-between"
-
--}
-spaceBetween : Attribute msg
-spaceBetween =
-    Html.Attributes.style "justify-content" "space-between"
+    [ contentCentered, alignAtCenter ]
 
 
 {-|
@@ -671,7 +659,7 @@ stickyOnBottom =
     Html.Attributes.style "bottom" "0" :: sticky
 
 
-{-|
+{-| @deprecated use `contentCentered` instead
 
     centerContent =
         Html.Attributes.style "justify-content" "center"
@@ -680,3 +668,127 @@ stickyOnBottom =
 centerContent : Attribute msg
 centerContent =
     Html.Attributes.style "justify-content" "center"
+
+
+{-| @deprecated use `contentWithSpaceBetween` instead
+
+    spaceBetween =
+        Html.Attributes.style "justify-content" "space-between"
+
+-}
+spaceBetween : Attribute msg
+spaceBetween =
+    Html.Attributes.style "justify-content" "space-between"
+
+
+{-|
+
+    contentAtStart =
+        Html.Attributes.style "justify-content" "flex-start"
+
+-}
+contentAtStart : Attribute msg
+contentAtStart =
+    Html.Attributes.style "justify-content" "flex-start"
+
+
+{-|
+
+    contentAtEnd =
+        Html.Attributes.style "justify-content" "flex-end"
+
+-}
+contentAtEnd : Attribute msg
+contentAtEnd =
+    Html.Attributes.style "justify-content" "flex-end"
+
+
+{-|
+
+    contentCentered =
+        Html.Attributes.style "justify-content" "center"
+
+-}
+contentCentered : Attribute msg
+contentCentered =
+    Html.Attributes.style "justify-content" "center"
+
+
+{-|
+
+    contentWithSpaceBetween =
+        Html.Attributes.style "justify-content" "space-between"
+
+-}
+contentWithSpaceBetween : Attribute msg
+contentWithSpaceBetween =
+    Html.Attributes.style "justify-content" "space-between"
+
+
+{-|
+
+    alignAtStart =
+        Html.Attributes.style "align-items" "flex-start"
+
+-}
+alignAtStart : Attribute msg
+alignAtStart =
+    Html.Attributes.style "align-items" "flex-start"
+
+
+{-|
+
+    alignAtEnd =
+        Html.Attributes.style "align-items" "flex-end"
+
+-}
+alignAtEnd : Attribute msg
+alignAtEnd =
+    Html.Attributes.style "align-items" "flex-end"
+
+
+{-| @Deprecated use `alignAtBaseline` instead
+-}
+alignBaseline : Attribute msg
+alignBaseline =
+    alignAtBaseline
+
+
+{-|
+
+    alignAtBaseline =
+        Html.Attributes.style "align-items" "baseline"
+
+-}
+alignAtBaseline : Attribute msg
+alignAtBaseline =
+    Html.Attributes.style "align-items" "baseline"
+
+
+{-| @deprecated Use `alignAtCenter` instead
+-}
+alignCenter : Attribute msg
+alignCenter =
+    alignAtCenter
+
+
+{-|
+
+    alignAtCenter =
+        Html.Attributes.style "align-items" "center"
+
+-}
+alignAtCenter : Attribute msg
+alignAtCenter =
+    Html.Attributes.style "align-items" "center"
+
+
+{-|
+
+    alignStretched =
+        Html.Attributes.style "align-items" "stretch"
+
+-}
+alignStretched : Attribute msg
+alignStretched =
+    Html.Attributes.style "align-items" "stretch"
