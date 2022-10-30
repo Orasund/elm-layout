@@ -71,7 +71,6 @@ import Html.Events
 
 {-|
 
-    none : Html msg
     none =
         Html.text ""
 
@@ -83,7 +82,6 @@ none =
 
 {-| Fills the entire screen. Should be the outer most element.
 
-    container : List (Attribute msg) -> Html msg -> Html msg
     container attrs =
         el
             ([ Html.Attributes.style "width" "100%"
@@ -111,7 +109,6 @@ container attrs =
 
 {-|
 
-    el : List (Attribute msg) -> Html msg -> Html msg
     el attrs content =
         Html.div
             (Html.Attributes.style "display" "flex"
@@ -131,7 +128,6 @@ el attrs content =
 
 {-|
 
-    row : List (Attribute msg) -> List (Html msg) -> Html msg
     row attrs =
         Html.div
             ([ Html.Attributes.style "display" "flex"
@@ -145,7 +141,6 @@ Will wrap into the next line if there is not enough space.
 
 If you don't want this behavior, you can just add `noWrap`:
 
-    unwrappedRow : List (Attribute msg) -> List (Html msg) -> Html msg
     unwrappedRow attrs =
         Layout.row (Layout.noWrap ++ attrs)
 
@@ -163,7 +158,6 @@ row attrs =
 
 {-|
 
-    column : List (Attribute msg) -> List (Html msg) -> Html msg
     column attrs =
         Html.div
             ([ Html.Attributes.style "display" "flex"
@@ -185,7 +179,6 @@ column attrs =
 
 {-|
 
-    orderedList : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
     orderedList attrs content =
         Html.ol
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -205,7 +198,6 @@ orderedList attrs content =
 
 {-|
 
-    unorderedList : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
     unorderedList attrs content =
         Html.ul
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -225,10 +217,6 @@ unorderedList attrs content =
 
 {-|
 
-    descriptionList :
-        List (Attribute msg)
-        -> List { description : ( List (Attribute msg), Html msg ), item : ( List (Attribute msg), Html msg ) }
-        -> Html msg
     descriptionList attrs content =
         Html.dl
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -261,7 +249,6 @@ descriptionList attrs content =
 
 {-|
 
-    paragraph : List (Attribute msg) -> Html msg -> Html msg
     paragraph attrs content =
         Html.p
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -277,7 +264,6 @@ paragraph attrs content =
 
 {-|
 
-    heading1 : List (Attribute msg) -> Html msg -> Html msg
     heading1 attrs content =
         Html.h1
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -293,7 +279,6 @@ heading1 attrs content =
 
 {-|
 
-    heading2 : List (Attribute msg) -> Html msg -> Html msg
     heading2 attrs content =
         Html.h2
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -309,7 +294,6 @@ heading2 attrs content =
 
 {-|
 
-    heading3 : List (Attribute msg) -> Html msg -> Html msg
     heading3 attrs content =
         Html.h3
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -325,7 +309,6 @@ heading3 attrs content =
 
 {-|
 
-    heading4 : List (Attribute msg) -> Html msg -> Html msg
     heading4 attrs content =
         Html.h4
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -341,7 +324,6 @@ heading4 attrs content =
 
 {-|
 
-    heading5 : List (Attribute msg) -> Html msg -> Html msg
     heading5 attrs content =
         Html.h5
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -357,7 +339,6 @@ heading5 attrs content =
 
 {-|
 
-    heading6 : List (Attribute msg) -> Html msg -> Html msg
     heading6 attrs content =
         Html.h6
             (Html.Attributes.style "display" "flex" :: attrs)
@@ -373,7 +354,6 @@ heading6 attrs content =
 
 {-|
 
-    image : List (Attribute msg) -> { src : String, description : String } -> Html msg
     image attrs args =
         Html.img
             ([ Html.Attributes.src args.src
@@ -397,7 +377,6 @@ image attrs args =
 
 {-|
 
-    linkTo : String -> List (Attribute msg) -> Html msg -> Html msg
     linkTo link attrs content =
         Html.a
             (Html.Attributes.href link
@@ -417,7 +396,6 @@ linkTo link attrs content =
 
 {-|
 
-    linkToNewTab : String -> List (Attribute msg) -> Html msg -> Html msg
     linkToNewTab link attrs content =
         Html.a
             ([ Html.Attributes.href link
@@ -441,7 +419,6 @@ linkToNewTab link attrs content =
 
 {-|
 
-    buttonEl : { onPress : Maybe msg, label : String } -> List (Attribute msg) -> Html msg -> Html msg
     buttonEl args attrs content =
         Html.button (asEl :: asButton args ++ attrs)
             [ content ]
@@ -455,7 +432,6 @@ buttonEl args attrs content =
 
 {-| @deprecated type signature will change in next major update. Until then, use `buttonEl`.
 
-    button : { onPress : Maybe msg, label : String } -> List (Attribute msg) -> Html msg
     button args attrs =
         Html.div (asButton args ++ attrs)
             [ Html.text args.label ]
@@ -469,13 +445,6 @@ button args attrs =
 
 {-|
 
-    radio :
-        { onChange : Bool -> msg
-        , checked : Bool
-        , label : String
-        }
-        -> List (Attribute msg)
-        -> Html msg
     radio args attrs =
         Html.input
             ([ Html.Attributes.type_ "radio"
@@ -507,7 +476,6 @@ radio args attrs =
 
 {-|
 
-    lineBreak : Html msg
     lineBreak =
         Html.br [] []
 
@@ -519,7 +487,6 @@ lineBreak =
 
 {-|
 
-    horizontalRuler : List (Attribute msg) -> Html msg
     horizontalRuler attrs =
         Html.hr attrs []
 
@@ -539,7 +506,6 @@ horizontalRuler attrs =
 
 {-| Turns anything into a button
 
-    asButton : { onPress : Maybe msg, label : String } -> List (Attribute msg)
     asButton args =
         [ Html.Attributes.attribute "cursor" "pointer"
         , Html.Attributes.attribute "aria-label" args.label
@@ -565,7 +531,6 @@ asButton args =
 
 {-|
 
-    asEl : Attribute msg
     asEl =
         Html.Attributes.style "display" "flex"
 
@@ -577,7 +542,6 @@ asEl =
 
 {-|
 
-    fill : Attribute msg
     fill =
         fillPortion 1
 
@@ -589,7 +553,6 @@ fill =
 
 {-|
 
-    fillPortion : Int -> Attribute msg
     fillPortion n =
         Html.Attributes.style "flex" (String.fromInt n)
 
@@ -601,7 +564,6 @@ fillPortion n =
 
 {-|
 
-    spacing : Float -> Attribute msg
     spacing n =
         Html.Attributesstyle "gap" (String.fromFloat n ++ "px")
 
@@ -613,7 +575,6 @@ spacing n =
 
 {-|
 
-    noWrap : Attribute msg
     noWrap =
         Html.Attributes.style "flex-wrap" "nowrap"
 
@@ -625,7 +586,6 @@ noWrap =
 
 {-|
 
-    alignBaseline : Attribute msg
     alignBaseline =
         Html.Attributes.style "align-items" "baseline"
 
@@ -637,7 +597,6 @@ alignBaseline =
 
 {-|
 
-    centered : List (Attribute msg)
     centered =
         [ centerContent, alignCenter ]
 
@@ -649,7 +608,6 @@ centered =
 
 {-|
 
-    alignCenter : Attribute msg
     alignCenter =
         Html.Attributes.style "align-items" "center"
 
@@ -661,7 +619,6 @@ alignCenter =
 
 {-|
 
-    spaceBetween : Attribute msg
     spaceBetween =
         Html.Attributes.style "justify-content" "space-between"
 
@@ -673,7 +630,6 @@ spaceBetween =
 
 {-|
 
-    sticky : List (Attribute msg)
     sticky =
         [ Html.Attributes.style "position" "sticky"
         , Html.Attributes.style "z-index" "99999"
@@ -689,7 +645,6 @@ sticky =
 
 {-|
 
-    stickyOnTop : List (Attribute msg)
     stickyOnTop =
         [ Html.Attributes.style "position" "sticky"
         , Html.Attributes.style "top" "0"
@@ -704,7 +659,6 @@ stickyOnTop =
 
 {-|
 
-    stickyOnBottom : List (Attribute msg)
     stickyOnBottom =
         [ Html.Attributes.style "position" "sticky"
         , Html.Attributes.style "bottom" "0"
@@ -719,7 +673,6 @@ stickyOnBottom =
 
 {-|
 
-    centerContent : Attribute msg
     centerContent =
         Html.Attributes.style "justify-content" "center"
 
