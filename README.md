@@ -1,5 +1,8 @@
 # elm-layout
 
+> **warning**
+> This package currently being developed. The existing API will change in future updates.
+
 Layout HTML using [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). You can think of it as elm-ui light.
 
 You can install this package or just get the [single elm file](https://github.com/Orasund/elm-layout/blob/main/src/Layout.elm).
