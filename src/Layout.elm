@@ -510,7 +510,7 @@ horizontalRuler attrs =
 {-| Turns anything into a button
 
     asButton args =
-        [ Html.Attributes.attribute "cursor" "pointer"
+        [ Html.Attributes.style "cursor" "pointer"
         , Html.Attributes.attribute "aria-label" args.label
         , Html.Attributes.attribute "role" "button"
         ]
@@ -522,7 +522,7 @@ horizontalRuler attrs =
 -}
 asButton : { onPress : Maybe msg, label : String } -> List (Attribute msg)
 asButton args =
-    [ Html.Attributes.attribute "cursor" "pointer"
+    [ Html.Attributes.style "cursor" "pointer"
     , Html.Attributes.attribute "aria-label" args.label
     , Html.Attributes.attribute "role" "button"
     ]
