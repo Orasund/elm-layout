@@ -1,5 +1,5 @@
 module Layout exposing
-    ( none, container, el, column, row, orderedList, unorderedList, descriptionList, paragraph
+    ( none, container, el, column, row, stack, orderedList, unorderedList, descriptionList, paragraph
     , heading1, heading2, heading3, heading4, heading5, heading6
     , image, linkTo, linkToNewTab, buttonEl, radio
     , lineBreak, horizontalRuler
@@ -18,7 +18,7 @@ module Layout exposing
 
 # Html elements
 
-@docs none, container, el, column, row, orderedList, unorderedList, descriptionList, paragraph
+@docs none, container, el, column, row, stack, orderedList, unorderedList, descriptionList, paragraph
 
 @docs heading1, heading2, heading3, heading4, heading5, heading6
 
@@ -178,6 +178,46 @@ column attrs =
          ]
             ++ attrs
         )
+
+
+{-| A stack places the content on top of each other. The first element is the lowest.
+
+    stack : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
+    stack attrs list =
+        list
+            |> List.map
+                (\( attr, content ) ->
+                    Html.div
+                        (Html.Attributes.style "position" "absolute"
+                            :: attr
+                        )
+                        [ content ]
+                )
+            |> Html.div
+                ([ Html.Attributes.style "display" "flex"
+                 , Html.Attributes.style "position" "relative"
+                 ]
+                    ++ attrs
+                )
+
+-}
+stack : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
+stack attrs list =
+    list
+        |> List.map
+            (\( attr, content ) ->
+                Html.div
+                    (Html.Attributes.style "position" "absolute"
+                        :: attr
+                    )
+                    [ content ]
+            )
+        |> Html.div
+            ([ Html.Attributes.style "display" "flex"
+             , Html.Attributes.style "position" "relative"
+             ]
+                ++ attrs
+            )
 
 
 {-|
