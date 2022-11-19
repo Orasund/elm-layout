@@ -1,5 +1,5 @@
 module Layout exposing
-    ( none, container, el, column, row, stack, orderedList, unorderedList, descriptionList, paragraph
+    ( none, container, el, column, row, withStack, orderedList, unorderedList, descriptionList, paragraph
     , heading1, heading2, heading3, heading4, heading5, heading6
     , image, linkTo, linkToNewTab, buttonEl, radio
     , lineBreak, horizontalRuler
@@ -10,7 +10,7 @@ module Layout exposing
     , fill, fillPortion
     , sticky, stickyOnBottom, stickyOnTop
     , asEl, asButton
-    , button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter
+    , button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack
     )
 
 {-| write HTML like elm-ui
@@ -18,7 +18,7 @@ module Layout exposing
 
 # Html elements
 
-@docs none, container, el, column, row, stack, orderedList, unorderedList, descriptionList, paragraph
+@docs none, container, el, column, row, withStack, orderedList, unorderedList, descriptionList, paragraph
 
 @docs heading1, heading2, heading3, heading4, heading5, heading6
 
@@ -55,7 +55,7 @@ module Layout exposing
 
 # Deprecated
 
-@docs button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter
+@docs button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack
 
 -}
 
@@ -180,26 +180,7 @@ column attrs =
         )
 
 
-{-| A stack places the content on top of each other. The first element is the lowest.
-
-    stack : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
-    stack attrs list =
-        list
-            |> List.map
-                (\( attr, content ) ->
-                    Html.div
-                        (Html.Attributes.style "position" "absolute"
-                            :: attr
-                        )
-                        [ content ]
-                )
-            |> Html.div
-                ([ Html.Attributes.style "display" "flex"
-                 , Html.Attributes.style "position" "relative"
-                 ]
-                    ++ attrs
-                )
-
+{-| Deprecated. Use `withStack` instead.
 -}
 stack : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
 stack attrs list =
@@ -212,6 +193,48 @@ stack attrs list =
                     )
                     [ content ]
             )
+        |> Html.div
+            ([ Html.Attributes.style "display" "flex"
+             , Html.Attributes.style "position" "relative"
+             ]
+                ++ attrs
+            )
+
+
+{-| A stack places the content on top of each other. The first element is the lowest.
+
+    withStack : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg -> Html msg
+    withStack attrs list base =
+        list
+            |> List.map
+                (\( attr, content ) ->
+                    Html.div
+                        (Html.Attributes.style "position" "absolute"
+                            :: attr
+                        )
+                        [ content ]
+                )
+            |> (::) base
+            |> Html.div
+                ([ Html.Attributes.style "display" "flex"
+                 , Html.Attributes.style "position" "relative"
+                 ]
+                    ++ attrs
+                )
+
+-}
+withStack : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg -> Html msg
+withStack attrs list base =
+    list
+        |> List.map
+            (\( attr, content ) ->
+                Html.div
+                    (Html.Attributes.style "position" "absolute"
+                        :: attr
+                    )
+                    [ content ]
+            )
+        |> (::) base
         |> Html.div
             ([ Html.Attributes.style "display" "flex"
              , Html.Attributes.style "position" "relative"
