@@ -1,7 +1,7 @@
 module Layout exposing
     ( none, container, el, column, row, withStack, orderedList, unorderedList, descriptionList, paragraph
     , heading1, heading2, heading3, heading4, heading5, heading6
-    , image, linkTo, linkToNewTab, buttonEl, radio
+    , textEl, image, linkTo, linkToNewTab, textButton, radio
     , lineBreak, horizontalRuler
     , centered, noWrap, wrap
     , contentAtStart, contentAtEnd, contentCentered, contentWithSpaceBetween
@@ -10,7 +10,7 @@ module Layout exposing
     , fill, fillPortion
     , sticky, stickyOnBottom, stickyOnTop
     , asEl, asButton
-    , button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack
+    , buttonEl, button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack
     )
 
 {-| write HTML like elm-ui
@@ -22,7 +22,7 @@ module Layout exposing
 
 @docs heading1, heading2, heading3, heading4, heading5, heading6
 
-@docs image, linkTo, linkToNewTab, buttonEl, radio
+@docs textEl, image, linkTo, linkToNewTab, textButton, radio
 
 @docs lineBreak, horizontalRuler
 
@@ -55,7 +55,7 @@ module Layout exposing
 
 # Deprecated
 
-@docs button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack
+@docs buttonEl, button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack
 
 -}
 
@@ -420,6 +420,18 @@ heading6 attrs content =
 
 {-|
 
+    textEl : List (Attribute msg) -> String -> Html msg
+    textEl attrs content =
+        el attrs (Html.text content)
+
+-}
+textEl : List (Attribute msg) -> String -> Html msg
+textEl attrs content =
+    el attrs (Html.text content)
+
+
+{-|
+
     image attrs args =
         Html.img
             ([ Html.Attributes.src args.src
@@ -481,6 +493,19 @@ linkToNewTab link attrs content =
             ++ attrs
         )
         [ content ]
+
+
+{-|
+
+    textButton attrs args =
+        Html.button (asButton args ++ attrs)
+            [ Html.text args.label ]
+
+-}
+textButton : List (Attribute msg) -> { onPress : Maybe msg, label : String } -> Html msg
+textButton attrs args =
+    Html.button (asButton args ++ attrs)
+        [ Html.text args.label ]
 
 
 {-|
