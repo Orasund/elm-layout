@@ -1,5 +1,5 @@
 module Layout exposing
-    ( none, container, el, column, row, withStack, orderedList, unorderedList, descriptionList, paragraph
+    ( none, container, el, column, row, withStack, orderedList, unorderedList, descriptionList
     , heading1, heading2, heading3, heading4, heading5, heading6
     , textEl, image, linkTo, linkToNewTab, textButton, radio
     , lineBreak, horizontalRuler
@@ -10,7 +10,7 @@ module Layout exposing
     , fill, fillPortion
     , sticky, stickyOnBottom, stickyOnTop
     , asEl, asButton
-    , buttonEl, button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack
+    , buttonEl, button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack, paragraph
     )
 
 {-| write HTML like elm-ui
@@ -18,7 +18,13 @@ module Layout exposing
 
 # Html elements
 
-@docs none, container, el, column, row, withStack, orderedList, unorderedList, descriptionList, paragraph
+
+## Layouting
+
+@docs none, container, el, column, row, withStack, orderedList, unorderedList, descriptionList
+
+
+## Elements
 
 @docs heading1, heading2, heading3, heading4, heading5, heading6
 
@@ -55,7 +61,7 @@ module Layout exposing
 
 # Deprecated
 
-@docs buttonEl, button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack
+@docs buttonEl, button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack, paragraph
 
 -}
 
