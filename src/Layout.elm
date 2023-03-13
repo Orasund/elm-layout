@@ -1,7 +1,7 @@
 module Layout exposing
     ( none, container, el, column, row, withStack, orderedList, unorderedList, descriptionList
     , heading1, heading2, heading3, heading4, heading5, heading6
-    , textEl, image, linkTo, linkToNewTab, textButton, radio
+    , text, image, linkTo, linkToNewTab, textButton, button, radio, paragraph
     , lineBreak, horizontalRuler
     , centered, noWrap, wrap
     , contentAtStart, contentAtEnd, contentCentered, contentWithSpaceBetween
@@ -10,7 +10,6 @@ module Layout exposing
     , fill, fillPortion
     , sticky, stickyOnBottom, stickyOnTop
     , asEl, asButton
-    , buttonEl, button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack, paragraph
     )
 
 {-| write HTML like elm-ui
@@ -28,7 +27,7 @@ module Layout exposing
 
 @docs heading1, heading2, heading3, heading4, heading5, heading6
 
-@docs textEl, image, linkTo, linkToNewTab, textButton, radio
+@docs text, image, linkTo, linkToNewTab, textButton, button, radio, paragraph
 
 @docs lineBreak, horizontalRuler
 
@@ -57,11 +56,6 @@ module Layout exposing
 ## Role
 
 @docs asEl, asButton
-
-
-# Deprecated
-
-@docs buttonEl, button, centerContent, spaceBetween, spacing, alignBaseline, alignCenter, stack, paragraph
 
 -}
 
@@ -186,39 +180,14 @@ column attrs =
         )
 
 
-{-| Deprecated. Use `withStack` instead.
--}
-stack : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg
-stack attrs list =
-    list
-        |> List.map
-            (\( attr, content ) ->
-                Html.div
-                    (Html.Attributes.style "position" "absolute"
-                        :: attr
-                    )
-                    [ content ]
-            )
-        |> Html.div
-            ([ Html.Attributes.style "display" "flex"
-             , Html.Attributes.style "position" "relative"
-             ]
-                ++ attrs
-            )
-
-
 {-| A stack places the content on top of each other. The first element is the lowest.
 
-    withStack : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg -> Html msg
+    withStack : List (Attribute msg) -> List (List (Attribute msg) -> Html msg) -> Html msg -> Html msg
     withStack attrs list base =
         list
             |> List.map
-                (\( attr, content ) ->
-                    Html.div
-                        (Html.Attributes.style "position" "absolute"
-                            :: attr
-                        )
-                        [ content ]
+                (\fun ->
+                    fun [ Html.Attributes.style "position" "absolute" ]
                 )
             |> (::) base
             |> Html.div
@@ -229,16 +198,12 @@ stack attrs list =
                 )
 
 -}
-withStack : List (Attribute msg) -> List ( List (Attribute msg), Html msg ) -> Html msg -> Html msg
+withStack : List (Attribute msg) -> List (List (Attribute msg) -> Html msg) -> Html msg -> Html msg
 withStack attrs list base =
     list
         |> List.map
-            (\( attr, content ) ->
-                Html.div
-                    (Html.Attributes.style "position" "absolute"
-                        :: attr
-                    )
-                    [ content ]
+            (\fun ->
+                fun [ Html.Attributes.style "position" "absolute" ]
             )
         |> (::) base
         |> Html.div
@@ -426,13 +391,13 @@ heading6 attrs content =
 
 {-|
 
-    textEl : List (Attribute msg) -> String -> Html msg
-    textEl attrs content =
+    text : List (Attribute msg) -> String -> Html msg
+    text attrs content =
         el attrs (Html.text content)
 
 -}
-textEl : List (Attribute msg) -> String -> Html msg
-textEl attrs content =
+text : List (Attribute msg) -> String -> Html msg
+text attrs content =
     el attrs (Html.text content)
 
 
@@ -461,7 +426,7 @@ image attrs args =
 
 {-|
 
-    linkTo link attrs content =
+    linkTo attrs link content =
         Html.a
             (Html.Attributes.href link
                 :: attrs
@@ -469,8 +434,8 @@ image attrs args =
             [ content ]
 
 -}
-linkTo : String -> List (Attribute msg) -> Html msg -> Html msg
-linkTo link attrs content =
+linkTo : List (Attribute msg) -> String -> Html msg -> Html msg
+linkTo attrs link content =
     Html.a
         (Html.Attributes.href link
             :: attrs
@@ -480,7 +445,7 @@ linkTo link attrs content =
 
 {-|
 
-    linkToNewTab link attrs content =
+    linkToNewTab attrs link content =
         Html.a
             ([ Html.Attributes.href link
              , Html.Attributes.target "_blank"
@@ -490,8 +455,8 @@ linkTo link attrs content =
             [ content ]
 
 -}
-linkToNewTab : String -> List (Attribute msg) -> Html msg -> Html msg
-linkToNewTab link attrs content =
+linkToNewTab : List (Attribute msg) -> String -> Html msg -> Html msg
+linkToNewTab attrs link content =
     Html.a
         ([ Html.Attributes.href link
          , Html.Attributes.target "_blank"
@@ -516,33 +481,20 @@ textButton attrs args =
 
 {-|
 
-    buttonEl args attrs content =
+    button args attrs content =
         Html.button (asEl :: asButton args ++ attrs)
             [ content ]
 
 -}
-buttonEl : { onPress : Maybe msg, label : String } -> List (Attribute msg) -> Html msg -> Html msg
-buttonEl args attrs content =
+button : List (Attribute msg) -> { onPress : Maybe msg, label : String } -> Html msg -> Html msg
+button attrs args content =
     Html.button (asEl :: asButton args ++ attrs)
         [ content ]
 
 
-{-| @deprecated type signature will change in next major update. Until then, use `buttonEl`.
-
-    button args attrs =
-        Html.div (asButton args ++ attrs)
-            [ Html.text args.label ]
-
--}
-button : { onPress : Maybe msg, label : String } -> List (Attribute msg) -> Html msg
-button args attrs =
-    Html.div (asButton args ++ attrs)
-        [ Html.text args.label ]
-
-
 {-|
 
-    radio args attrs =
+    radio attrs args =
         Html.input
             ([ Html.Attributes.type_ "radio"
              , Html.Attributes.checked args.checked
@@ -554,13 +506,14 @@ button args attrs =
 
 -}
 radio :
-    { onChange : Bool -> msg
-    , checked : Bool
-    , label : String
-    }
-    -> List (Attribute msg)
+    List (Attribute msg)
+    ->
+        { onChange : Bool -> msg
+        , checked : Bool
+        , label : String
+        }
     -> Html msg
-radio args attrs =
+radio attrs args =
     Html.input
         ([ Html.Attributes.type_ "radio"
          , Html.Attributes.checked args.checked
@@ -659,13 +612,6 @@ fillPortion n =
     Html.Attributes.style "flex" (String.fromInt n)
 
 
-{-| @deprecated use `gap` instead.
--}
-spacing : Float -> Attribute msg
-spacing n =
-    Html.Attributes.style "gap" (String.fromFloat n ++ "px")
-
-
 {-|
 
     gap n =
@@ -753,28 +699,6 @@ stickyOnBottom =
     Html.Attributes.style "bottom" "0" :: sticky
 
 
-{-| @deprecated use `contentCentered` instead
-
-    centerContent =
-        Html.Attributes.style "justify-content" "center"
-
--}
-centerContent : Attribute msg
-centerContent =
-    Html.Attributes.style "justify-content" "center"
-
-
-{-| @deprecated use `contentWithSpaceBetween` instead
-
-    spaceBetween =
-        Html.Attributes.style "justify-content" "space-between"
-
--}
-spaceBetween : Attribute msg
-spaceBetween =
-    Html.Attributes.style "justify-content" "space-between"
-
-
 {-|
 
     contentAtStart =
@@ -841,13 +765,6 @@ alignAtEnd =
     Html.Attributes.style "align-items" "flex-end"
 
 
-{-| @Deprecated use `alignAtBaseline` instead
--}
-alignBaseline : Attribute msg
-alignBaseline =
-    alignAtBaseline
-
-
 {-|
 
     alignAtBaseline =
@@ -857,13 +774,6 @@ alignBaseline =
 alignAtBaseline : Attribute msg
 alignAtBaseline =
     Html.Attributes.style "align-items" "baseline"
-
-
-{-| @deprecated Use `alignAtCenter` instead
--}
-alignCenter : Attribute msg
-alignCenter =
-    alignAtCenter
 
 
 {-|
