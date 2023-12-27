@@ -373,21 +373,41 @@ alignItemsFlexEnd =
 ------------------------------------
 
 
+{-| The CSS justify-content property defines how the browser distributes space between and around content items along the main-axis of a flex container, and the inline axis of a grid container.
+
+<https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content>
+
+-}
 justifyContent : String -> Attribute msg
 justifyContent =
     Html.Attributes.style "justify-content"
 
 
+{-| The items are packed flush to each other toward the center of the alignment container along the main axis.
+
+<https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content>
+
+-}
 justifyContentCenter : Attribute msg
 justifyContentCenter =
     justifyContent "center"
 
 
+{-| The items are packed flush to each other toward the edge of the alignment container depending on the flex container's main-start side. This only applies to flex layout items. For items that are not children of a flex container, this value is treated like start.
+
+<https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content>
+
+-}
 justifyContentFlexStart : Attribute msg
 justifyContentFlexStart =
     justifyContent "flex-start"
 
 
+{-| The items are packed flush to each other toward the edge of the alignment container depending on the flex container's main-end side. This only applies to flex layout items. For items that are not children of a flex container, this value is treated like end.
+
+<https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content>
+
+-}
 justifyContentFlexEnd : Attribute msg
 justifyContentFlexEnd =
     justifyContent "flex-end"
