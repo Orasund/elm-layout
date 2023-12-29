@@ -1,5 +1,6 @@
 module Html.Style exposing
-    ( position, positionStatic, positionRelative, positionAbsolute, positionFixed, positionSticky
+    ( width, height, boxSizing, boxSizingBorderBox
+    , position, positionStatic, positionRelative, positionAbsolute, positionFixed, positionSticky
     , top, right, bottom, left
     , display, displayBlock, displayInline, displayFlex, displayInlineFlex, displayGrid, displayInlineGrid, displayNone
     , flex, gap
@@ -11,6 +12,11 @@ module Html.Style exposing
 {-| This is a experimental module for writing css.
 
 It emphasises simplicity over type safety and is compatible with both Elm-UI and Elm-CSS
+
+
+# Sizing
+
+@docs width, height, boxSizing, boxSizingBorderBox
 
 
 # Position
@@ -37,6 +43,59 @@ It emphasises simplicity over type safety and is compatible with both Elm-UI and
 
 import Html exposing (Attribute)
 import Html.Attributes
+
+
+
+-----------------------------------------------------
+-- ######  #### ######## #### ##    ##  ######
+--##    ##  ##       ##   ##  ###   ## ##    ##
+--##        ##      ##    ##  ####  ## ##
+-- ######   ##     ##     ##  ## ## ## ##   ####
+--      ##  ##    ##      ##  ##  #### ##    ##
+--##    ##  ##   ##       ##  ##   ### ##    ##
+-- ######  #### ######## #### ##    ##  ######
+--https://patorjk.com/software/taag/#p=display&h=1&v=2&f=Banner3&t=Sizing%0A
+-----------------------------------------------------
+
+
+{-| The width CSS property sets an element's width. By default, it sets the width of the content area, but if box-sizing is set to border-box, it sets the width of the border area.
+
+<https://developer.mozilla.org/en-US/docs/Web/CSS/width>
+
+-}
+width : String -> Attribute msg
+width =
+    Html.Attributes.style "width"
+
+
+{-| The height CSS property specifies the height of an element. By default, the property defines the height of the content area. If box-sizing is set to border-box, however, it instead determines the height of the border area.
+
+<https://developer.mozilla.org/en-US/docs/Web/CSS/height>
+
+-}
+height : String -> Attribute msg
+height =
+    Html.Attributes.style "height"
+
+
+{-| The box-sizing CSS property sets how the total width and height of an element is calculated.
+
+<https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing>
+
+-}
+boxSizing : String -> Attribute msg
+boxSizing =
+    Html.Attributes.style "box-sizing"
+
+
+{-| The width and height properties include the content, padding, and border, but do not include the margin. Note that padding and border will be inside of the box. For example, .box {width: 350px; border: 10px solid black;} renders a box that is 350px wide, with the area for content being 330px wide. The content box can't be negative and is floored to 0, making it impossible to use border-box to make the element disappear.
+
+<https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing>
+
+-}
+boxSizingBorderBox : Attribute msg
+boxSizingBorderBox =
+    boxSizing "border-box"
 
 
 
