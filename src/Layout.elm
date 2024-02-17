@@ -112,6 +112,13 @@ spanWrapper attrs content =
     Html.span attrs [ content ]
 
 
+{-|
+
+    pWrapper : List (Attribute msg) -> Html msg -> Html msg
+    pWrapper attrs content =
+        Html.p attrs [ content ]
+
+-}
 pWrapper : List (Attribute msg) -> Html msg -> Html msg
 pWrapper attrs content =
     Html.p attrs [ content ]
